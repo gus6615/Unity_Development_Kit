@@ -361,6 +361,8 @@
 "Assets/2D/#1.Gamemanager/SaveManager.cs"
 "Assets/2D/#1.Gamemanager/SoundManager.cs"
 "Assets/2D/#1.Gamemanager/TempData.cs"
+"Assets/Common/#1.RandomManager/RandomManager.cs"
+"Assets/Common/#1.RandomManager/TestScene/RandomTest.cs"
 -langversion:9.0
 
 /deterministic

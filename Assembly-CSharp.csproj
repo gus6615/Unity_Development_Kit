@@ -60,10 +60,12 @@
   <ItemGroup>
     <Compile Include="Assets\2D\#1.Gamemanager\GameManager.cs" />
     <Compile Include="Assets\2D\#1.Gamemanager\SaveManager.cs" />
+    <Compile Include="Assets\Common\#1.RandomManager\RandomManager.cs" />
     <Compile Include="Assets\2D\#1.Gamemanager\TempData.cs" />
     <Compile Include="Assets\2D\#1.Gamemanager\ResourceManager.cs" />
     <Compile Include="Assets\2D\#1.Gamemanager\DataManager.cs" />
     <Compile Include="Assets\2D\#1.Gamemanager\SoundManager.cs" />
+    <Compile Include="Assets\Common\#1.RandomManager\TestScene\RandomTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
