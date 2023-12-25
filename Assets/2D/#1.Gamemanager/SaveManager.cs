@@ -43,21 +43,21 @@ public class SaveManager : MonoBehaviour
         saveData = new SaveData();
         savePath = Path.Combine(Application.persistentDataPath, "SaveData.json");
 
-        Load();
+        LoadGame();
     }
 
-    public void Save()
+    public void SaveGame()
     {
         string _saveJson = JsonUtility.ToJson(saveData, true);
         File.WriteAllText(savePath, _saveJson);
     }
 
-    public void Load()
+    public void LoadGame()
     {
         if (!CheckSaveFile())
         {
             Debug.Log("SaveData is not exised! So system creats a new SaveData.");
-            Save();
+            SaveGame();
             return;
         }
 

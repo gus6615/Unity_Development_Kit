@@ -9,22 +9,22 @@ using UnityEngine;
 public class TempData : ScriptableObject
 {
     [SerializeField]
-    private string _id;
-    public string ID => _id;
+    private string id;
+    public string ID => id;
 
     [SerializeField]
-    private string _pw;
-    public string PW => _pw;
+    private string pw;
+    public string PW => pw;
 
     [SerializeField]
     private TempStructure tempStructure;
+    public TempStructure TempStructure => tempStructure;
 
-    public void Show() => Debug.Log($"ID: {_id} | PW: {_pw}");
+    public void Show() => Debug.Log($"ID: {id} | PW: {pw}");
 }
 
 [System.Serializable]
 public struct TempStructure
 {
-    [SerializeField]
-    private List<int> elements;
+    public List<int> elements;
 }

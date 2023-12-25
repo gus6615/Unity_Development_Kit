@@ -17,14 +17,5 @@ public class DataManager : MonoBehaviour
     {
         tempDatas = new List<TempData>();
         tempDatas.AddRange(GameManager.Resource.LoadAll<TempData>("TempDatas"));
-        ShowTempDatas();
-    }
-
-    private void ShowTempDatas()
-    {
-        foreach (var temp in tempDatas)
-        {
-            temp.Show();
-        }
     }
 }

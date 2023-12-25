@@ -124,7 +124,10 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     private AudioSource CreateAudio()
     {
-        AudioSource source = Instantiate(new GameObject(), SE_tr).AddComponent<AudioSource>();
+        GameObject go = new GameObject();
+        go.transform.SetParent(SE_tr);
+
+        AudioSource source = go.AddComponent<AudioSource>();
         source.loop = false;
         source.playOnAwake = false;
         SE_audioList.Add(source);
