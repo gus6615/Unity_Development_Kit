@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 /// <summary>
@@ -7,26 +8,13 @@ using UnityEngine;
 /// </summary>
 public class RandomManager
 {
-    /// <summary>
-    /// 확률에 따라 true 혹은 false를 반환하는 함수
-    /// </summary>
-    /// <param name="percent">확률(0f ~ 1f)</param>
-    public static bool GetRandFlag(float percent) => Random.value <= percent;
+    public static bool GetFlag(float percent) 
+        => Random.value <= percent;
 
+    public static int GetWeightedNum(int num, AnimationCurve curve) 
+        => (int)(num * curve.Evaluate(Random.value));
 
-    /// <summary>
-    /// 확률 곡선에 따른 가중치가 곱해진 값을 반환하는 함수
-    /// </summary>
-    /// <param name="num">기본값</param>
-    /// <param name="curve">확률 곡선</param>
-    public static int GetRandWeightedNum(int num, AnimationCurve curve) => (int)(num * curve.Evaluate(Random.value));
-
-
-    /// <summary>
-    /// 확률표에 따라 Element를 반환하는 함수
-    /// </summary>
-    /// <param name="percents">확률표(element: 0f ~ 1f)</param>
-    public static int GetRandElement(params float[] percents)
+    public static int GetElement(float[] percents)
     {
         float[] percents_copy = (float[])percents.Clone();
         float value = Random.value;
@@ -43,5 +31,34 @@ public class RandomManager
             if (percents_copy[i - 1] <= value && value < percents_copy[i])
                 return i;
         return 0;
+    }
+
+    public static int[] Shuffle(int[] list)
+    {
+        int[] list_copy = (int[])list.Clone();
+        
+        for (int i = 0; i < list_copy.Length; i++)
+        {
+            int randIndex = Random.Range(0, list_copy.Length);
+            int temp = list_copy[randIndex];
+            list_copy[randIndex] = list_copy[i];
+            list_copy[i] = temp;
+        }
+
+        return list_copy;
+    }
+
+    public static List<int> ChooseSet(List<int> list, int numToSelect)
+    {
+        List<int> list_copy = new List<int>();
+
+        for (int i = 0; i < numToSelect; i++)
+        {
+            int rand = Random.Range(0, list.Count);
+            list_copy.Add(list[rand]);
+            list.Remove(list[rand]);
+        }
+
+        return list_copy;
     }
 }
