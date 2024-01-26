@@ -44,6 +44,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c22739852ba6c489b8ed7d9f7f2f21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &3003297687916346476
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 532376894161863951}
+  - component: {fileID: 2924204834867259311}
+  m_Layer: 0
+  m_Name: GoogleSheetManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &532376894161863951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3003297687916346476}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2371346730765651441}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2924204834867259311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3003297687916346476}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d8ae5e7071546045a6365f98ed4d775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3505449754675520103
 GameObject:
   m_ObjectHideFlags: 0
@@ -315,7 +359,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 532376894161863951}
   m_Father: {fileID: 5773499144920687763}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &441566259156595315
@@ -330,7 +375,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a32dbfb23dca8b4a8ae4b7a38bd2e72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tempDatas: []
+  googleSheet: {fileID: 2924204834867259311}
+  jemSO: {fileID: 0}
+  jemSOList: []
 --- !u!1 &8603111677884496786
 GameObject:
   m_ObjectHideFlags: 0
