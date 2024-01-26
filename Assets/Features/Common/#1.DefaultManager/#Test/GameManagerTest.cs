@@ -43,8 +43,15 @@ public class GameManagerTest : MonoBehaviour
         StartCoroutine(AutoSave());
     }
 
-    public void OnClickButton()
+    public void GoToLobby()
     {
         GameManager.Sound.PlaySE("ClickButton");
+        GameManager.Scene.GoToScene(Scene.LobbyScene, "MainBGM");
+    }
+
+    public void GoToTest()
+    {
+        GameManager.Sound.PlaySE("ClickButton");
+        GameManager.Scene.GoToScene(Scene.TestScene, "TestBGM");
     }
 }

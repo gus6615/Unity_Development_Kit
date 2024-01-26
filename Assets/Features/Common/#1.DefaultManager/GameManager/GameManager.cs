@@ -24,6 +24,10 @@ public class GameManager : MonoBehaviour
     public static SoundManager Sound => Instance.s_sound;
 
     [SerializeField]
+    private SceneController s_scene;
+    public static SceneController Scene => Instance.s_scene;
+
+    [SerializeField]
     private UIManager s_ui;
     public static UIManager UI => Instance.s_ui;
 
@@ -48,5 +52,6 @@ public class GameManager : MonoBehaviour
         s_resource.Init();
         s_data.Init();
         s_sound.Init();
+        s_scene.Init();
     }
 }

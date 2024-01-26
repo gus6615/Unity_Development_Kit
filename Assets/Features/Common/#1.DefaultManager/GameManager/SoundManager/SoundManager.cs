@@ -30,15 +30,11 @@ public class SoundManager : MonoBehaviour
 
         SE_audioList = new List<AudioSource>();
 
-        BGM_audio = this.GetComponent<AudioSource>();
-        if (BGM_audio == null)
-            BGM_audio = this.gameObject.AddComponent<AudioSource>();
-
+        BGM_audio = gameObject.GetOrAddComponent<AudioSource>();
         BGM_audio.volume = 0f;
         BGM_audio.loop = true;
 
-        // 배경 음악 재생 (※ Temp_BGM 외 다른 BGM을 설정하세요)
-        PlayBGM("Temp_BGM", 1.5f);
+        PlayBGM("TestBGM", SceneController.FADE_INIT_TIME);
     }
 
 
@@ -67,7 +63,6 @@ public class SoundManager : MonoBehaviour
             return;
         }
 
-        BGM_audio.Play();
         StartCoroutine(BGMFade(BGM_clip, fadeTime));
     }
 
@@ -149,8 +144,13 @@ public class SoundManager : MonoBehaviour
             yield return null;
         }
 
+        // 아직 전환이 되지 않았다면 대기
+        while (GameManager.Scene.IsChanging)
+            yield return null;
+
         BGM_audio.volume = 0f;
         BGM_audio.clip = BGM_clip;
+        BGM_audio.Play();
 
         while (BGM_audio.volume < 1f)
         {

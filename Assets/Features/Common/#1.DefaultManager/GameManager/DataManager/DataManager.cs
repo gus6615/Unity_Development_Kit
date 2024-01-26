@@ -12,9 +12,6 @@ public class DataManager : MonoBehaviour
     public GoogleSheetManager GoogleSheet => googleSheet;
 
 
-
-    [SerializeField] private JemSO jemSO;
-
     [SerializeField]
     private List<JemSO> jemSOList;
     public List<JemSO> JemSOList => jemSOList;
