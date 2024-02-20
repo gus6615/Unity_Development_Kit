@@ -9,6 +9,6 @@ public class UIManagerTest : MonoBehaviour
         UI_TempPopup popup = GameManager.UI.ShowPopup<UI_TempPopup>("Temp_Popup");
         popup.Order++;
         popup.SetTitle($"This is a Temp UI Popup!");
-        GameManager.Sound.PlaySE("ClickButton");
+        GameManager.Sound.Play("ClickButton");
     }
 }

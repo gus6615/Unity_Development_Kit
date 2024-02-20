@@ -11,6 +11,7 @@ public class GameManagerTest : MonoBehaviour
     void Start()
     {
         GameManager.Save.LoadGame();
+
         StartCoroutine(AutoSave());
     }
 
@@ -45,13 +46,13 @@ public class GameManagerTest : MonoBehaviour
 
     public void GoToLobby()
     {
-        GameManager.Sound.PlaySE("ClickButton");
+        GameManager.Sound.Play("ClickButton");
         GameManager.Scene.GoToScene(Scene.LobbyScene, "MainBGM");
     }
 
     public void GoToTest()
     {
-        GameManager.Sound.PlaySE("ClickButton");
+        GameManager.Sound.Play("ClickButton");
         GameManager.Scene.GoToScene(Scene.TestScene, "TestBGM");
     }
 }

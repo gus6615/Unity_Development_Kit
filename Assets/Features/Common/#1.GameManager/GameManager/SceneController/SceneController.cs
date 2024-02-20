@@ -53,7 +53,6 @@ public class SceneController : MonoBehaviour
         if (IsChanging)
             yield break; // 현재 작업 중이면 취소
 
-        GameManager.Sound.PlayBGM(BGM_name, fadeTime);
         IsChanging = true;
         FadeOut(fadeTime);
 
@@ -61,6 +60,7 @@ public class SceneController : MonoBehaviour
 
         // 씬 전환
         SceneManager.LoadScene((int)scene);
+        GameManager.Sound.Play(BGM_name, Sound.Bgm);
 
         IsChanging = false;
         FadeIn(fadeTime);
@@ -74,11 +74,13 @@ public class SceneController : MonoBehaviour
         if (IsChanging)
             yield break; // 현재 작업 중이면 취소
 
-        GameManager.Sound.PlayBGM(BGM_name, fadeTime);
         IsChanging = true;
         FadeOut(fadeTime);
 
         yield return new WaitForSeconds(fadeTime);
+
+        // target.transform.position = destination;
+        GameManager.Sound.Play(BGM_name, Sound.Bgm);
 
         IsChanging = false;
         FadeIn(fadeTime);
@@ -97,7 +99,8 @@ public class SceneController : MonoBehaviour
 
         yield return new WaitForSeconds(fadeInTime);
 
-        // FadeIn -> Out 전환 시점
+        // target.transform.position = destination;
+
         IsChanging = false;
         FadeIn(fadeOutTime);
 

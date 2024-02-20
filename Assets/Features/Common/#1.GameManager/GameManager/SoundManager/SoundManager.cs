@@ -1,163 +1,102 @@
+ï»¿using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Sound
+{
+    Bgm,
+    Effect,
+    MaxCount,  // ì•„ë¬´ê²ƒë„ ì•„ë‹˜. ê·¸ëƒ¥ Sound enumì˜ ê°œìˆ˜ ì„¸ê¸° ìœ„í•´ ì¶”ê°€. (0, 1, '2' ì´ë ‡ê²Œ 2ê°œ) 
+}
+
 /// <summary>
-/// °ÔÀÓ BGM ¹× SE Ãâ·ÂÀ» ´ã´çÇÕ´Ï´Ù.
-/// Ãâ·ÂÀ» À§ÇÑ AudioSource°¡ µ¿ÀûÀ¸·Î »ı¼ºµÇ¹Ç·Î °³¹ßÀÚ´Â AudioSourceÀ» °ü¸®ÇÏÁö ¾Ê¾Æµµ µË´Ï´Ù.
+/// ê²Œì„ BGM ë° SE ì¶œë ¥ì„ ë‹´ë‹¹í•©ë‹ˆë‹¤.
 /// </summary>
 public class SoundManager : MonoBehaviour
 {
-    [SerializeField]
-    private Transform SE_tr;
-
-    [SerializeField]
-    private List<AudioSource> SE_audioList;
-
-    [SerializeField]
-    private AudioSource BGM_audio;
-
+    private AudioSource[] _audioSources = new AudioSource[(int)Sound.MaxCount];
+    private Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
 
     public void Init()
     {
-        SE_tr = this.transform.Find("SE_AudioBox");
-        if (SE_tr == null)
+        string[] soundNames = System.Enum.GetNames(typeof(Sound)); // "Bgm", "Effect"
+        for (int i = 0; i < soundNames.Length - 1; i++)
         {
-            Transform go = new GameObject("SE_AudioBox").transform;
-            go.SetParent(this.transform);
-            SE_tr = go;
+            GameObject go = new GameObject { name = soundNames[i] };
+            _audioSources[i] = go.AddComponent<AudioSource>();
+            go.transform.SetParent(this.transform);
         }
 
-        SE_audioList = new List<AudioSource>();
-
-        BGM_audio = gameObject.GetOrAddComponent<AudioSource>();
-        BGM_audio.volume = 0f;
-        BGM_audio.loop = true;
-
-        PlayBGM("TestBGM", SceneController.FADE_INIT_TIME);
+        _audioSources[(int)Sound.Bgm].loop = true; // bgm ì¬ìƒê¸°ëŠ” ë¬´í•œ ë°˜ë³µ ì¬ìƒ
     }
 
-
-    /// <summary>
-    /// BGM ¿Àµğ¿À¸¦ Ãâ·ÂÇÏ´Â ÇÔ¼öÀÌ´Ù.
-    /// </summary>
-    /// <param name="BGM_name">Ãâ·ÂÇÒ BGM ÀÌ¸§ </param>
-    /// <param name="fadeTime">Fade ÀüÈ¯ ½Ã°£</param>
-    public void PlayBGM(string BGM_name, float fadeTime)
+    public void Clear()
     {
-        AudioClip BGM_clip = GameManager.Resource.Load<AudioClip>($"Audios/BGM/{BGM_name}");
-        PlayBGM(BGM_clip, fadeTime);
-    }
-
-
-    /// <summary>
-    /// BGM ¿Àµğ¿À¸¦ Ãâ·ÂÇÏ´Â ÇÔ¼öÀÌ´Ù.
-    /// </summary>
-    /// <param name="BGM_clip">Ãâ·ÂÇÒ BGM ¿Àµğ¿À Å¬¸³ </param>
-    /// <param name="fadeTime">Fade ÀüÈ¯ ½Ã°£</param>
-    public void PlayBGM(AudioClip BGM_clip, float fadeTime)
-    {
-        if (BGM_clip == null)
+        // ì¬ìƒê¸° ì „ë¶€ ì¬ìƒ ìŠ¤íƒ‘, ìŒë°˜ ë¹¼ê¸°
+        foreach (AudioSource audioSource in _audioSources)
         {
-            Debug.LogError("BGM ¿Àµğ¿À Å¬¸³ÀÌ NULLÀÔ´Ï´Ù!");
+            audioSource.clip = null;
+            audioSource.Stop();
+        }
+        // íš¨ê³¼ìŒ Dictionary ë¹„ìš°ê¸°
+        _audioClips.Clear();
+    }
+
+    public void Play(AudioClip audioClip, Sound type = Sound.Effect, float pitch = 1.0f)
+    {
+        if (audioClip == null)
             return;
-        }
 
-        StartCoroutine(BGMFade(BGM_clip, fadeTime));
-    }
-
-
-    /// <summary>
-    /// SE ¿Àµğ¿À¸¦ Ãâ·ÂÇÏ´Â ÇÔ¼öÀÌ´Ù.
-    /// </summary>
-    /// <param name="SE_name">Ãâ·ÂÇÒ SE ÀÌ¸§</param>
-    public void PlaySE(string SE_name)
-    {
-        AudioClip SE_clip = GameManager.Resource.Load<AudioClip>($"Audios/SE/{SE_name}");
-        PlaySE(SE_clip);
-    }
-
-
-    /// <summary>
-    /// SE ¿Àµğ¿À¸¦ Ãâ·ÂÇÏ´Â ÇÔ¼öÀÌ´Ù.
-    /// </summary>
-    /// <param name="SE_clip">Ãâ·ÂÇÒ SE ¿Àµğ¿À Å¬¸³</param>
-    public void PlaySE(AudioClip SE_clip)
-    {
-        if (SE_clip == null)
+        if (type == Sound.Bgm) // BGM ë°°ê²½ìŒì•… ì¬ìƒ
         {
-            Debug.LogError("SE ¿Àµğ¿À Å¬¸³ÀÌ NULLÀÔ´Ï´Ù!");
-            return;
-        }
+            AudioSource audioSource = _audioSources[(int)Sound.Bgm];
+            if (audioSource.isPlaying)
+                audioSource.Stop();
 
-        AudioSource audio = FindIdleAudio();
-        if (audio == null)
+            audioSource.pitch = pitch;
+            audioSource.clip = audioClip;
+            audioSource.Play();
+        }
+        else // Effect íš¨ê³¼ìŒ ì¬ìƒ
         {
-            Debug.LogError("¿Àµğ¿À ¼Ò½º°¡ NULLÀÔ´Ï´Ù!");
-            return;
+            AudioSource audioSource = _audioSources[(int)Sound.Effect];
+            audioSource.pitch = pitch;
+            audioSource.PlayOneShot(audioClip);
         }
-
-        audio.clip = SE_clip;
-        audio.Play();
     }
 
-
-    /// <summary>
-    /// ÇöÀç »ç¿ë °¡´ÉÇÑ ¿Àµğ¿À ¼Ò½º¸¦ Å½»öÇÏ¿© ¹İÈ¯ÇÏ´Â ÇÔ¼öÀÌ´Ù.
-    /// </summary>
-    private AudioSource FindIdleAudio()
+    public void Play(string path, Sound type = Sound.Effect, float pitch = 1.0f)
     {
-        foreach (var audio in SE_audioList)
-            if (!audio.isPlaying)
-                return audio;
-        return CreateAudio();
+        AudioClip audioClip = GetOrAddAudioClip(path, type);
+        Play(audioClip, type, pitch);
     }
 
-
-    /// <summary>
-    /// »õ·Î¿î ¿Àµğ¿À ¼Ò½º¸¦ »ı¼ºÇÏ°í ¹İÈ¯ÇÏ´Â ÇÔ¼öÀÌ´Ù.
-    /// </summary>
-    private AudioSource CreateAudio()
+    private AudioClip GetOrAddAudioClip(string path, Sound type = Sound.Effect)
     {
-        GameObject go = new GameObject();
-        go.transform.SetParent(SE_tr);
+        if (type.Equals(Sound.Effect) && path.Contains("Sounds/SE") == false)
+            path = $"Sounds/SE/{path}"; // ğŸ“‚Sound í´ë” ì•ˆì— ì €ì¥ë  ìˆ˜ ìˆë„ë¡
+        else if (type.Equals(Sound.Bgm) && path.Contains("Sounds/BGM") == false)
+            path = $"Sounds/BGM/{path}"; // ğŸ“‚Sound í´ë” ì•ˆì— ì €ì¥ë  ìˆ˜ ìˆë„ë¡
 
-        AudioSource source = go.AddComponent<AudioSource>();
-        source.loop = false;
-        source.playOnAwake = false;
-        SE_audioList.Add(source);
+        AudioClip audioClip = null;
 
-        return source;
-    }
-
-
-    /// <summary>
-    /// ¿Àµğ¿À º¼·ıÀ» ¼­¼­È÷ ÀüÈ¯½ÃÅ°´Â ÄÚ·çÆ¾ ÇÔ¼öÀÌ´Ù.
-    /// </summary>
-    /// <param name="BGM_clip">Ãâ·ÂÇÒ BGM ¿Àµğ¿À Å¬¸³ </param>
-    /// <param name="fadeTime">Fade ÀüÈ¯ ½Ã°£</param>
-    IEnumerator BGMFade(AudioClip BGM_clip, float fadeTime)
-    {
-        while (BGM_audio.volume > 0f)
+        if (type == Sound.Bgm) // BGM ë°°ê²½ìŒì•… í´ë¦½ ë¶™ì´ê¸°
         {
-            BGM_audio.volume -= Time.deltaTime / fadeTime;
-            yield return null;
+            audioClip = GameManager.Resource.Load<AudioClip>(path);
+        }
+        else // Effect íš¨ê³¼ìŒ í´ë¦½ ë¶™ì´ê¸°
+        {
+            if (_audioClips.TryGetValue(path, out audioClip) == false)
+            {
+                audioClip = GameManager.Resource.Load<AudioClip>(path);
+                _audioClips.Add(path, audioClip);
+            }
         }
 
-        // ¾ÆÁ÷ ÀüÈ¯ÀÌ µÇÁö ¾Ê¾Ò´Ù¸é ´ë±â
-        while (GameManager.Scene.IsChanging)
-            yield return null;
+        if (audioClip == null)
+            Debug.Log($"AudioClip Missing ! {path}");
 
-        BGM_audio.volume = 0f;
-        BGM_audio.clip = BGM_clip;
-        BGM_audio.Play();
-
-        while (BGM_audio.volume < 1f)
-        {
-            BGM_audio.volume += Time.deltaTime / fadeTime;
-            yield return null;
-        }
-
-        BGM_audio.volume = 1f;
+        return audioClip;
     }
 }

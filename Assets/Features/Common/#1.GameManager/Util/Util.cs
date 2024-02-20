@@ -11,4 +11,11 @@ public class Util
             component = go.AddComponent<T>();
         return component;
     }
+
+    public static void BetterLog(string log)
+    {
+#if UNITY_EDITOR
+        Debug.Log(log);
+#endif
+    }
 }

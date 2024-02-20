@@ -17,12 +17,12 @@ public class UI_TempPopup : UI_Popup
         UI_TempPopup popup = GameManager.UI.ShowPopup<UI_TempPopup>("Temp_Popup");
         popup.Order = this.Order + 1;
         popup.SetTitle($"This is a Temp UI Popup!");
-        GameManager.Sound.PlaySE("ClickButton");
+        GameManager.Sound.Play("ClickButton");
     }
 
     public void OnClosePopup()
     {
         GameManager.UI.ClosePopup(this);
-        GameManager.Sound.PlaySE("ClickButton");
+        GameManager.Sound.Play("ClickButton");
     }
 }
