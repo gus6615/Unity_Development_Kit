@@ -6,9 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Features/Common/#1.GameManager/#Test/(Start)TestScene.unity
+    path: Assets/Features/Feature/#1.GameManager/#TestScene/(Start)TestScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Features/Common/#1.GameManager/#Test/LobbyScene.unity
+    path: Assets/Features/Feature/#1.GameManager/#TestScene/LobbyScene.unity
     guid: 3261dbb72d2c5d447b8914f4a6c46d54
   m_configObjects: {}

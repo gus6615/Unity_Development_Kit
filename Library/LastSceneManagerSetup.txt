@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Features/Common/#1.GameManager/#Test/(Start)TestScene.unity
+- path: Assets/Features/Test/TestScene.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
