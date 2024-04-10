@@ -415,6 +415,7 @@
 "Assets/Features/Feature/#5.Quest/QuestController.cs"
 "Assets/Features/Feature/#5.Quest/QuestInfoSlot.cs"
 "Assets/Features/Feature/#5.Quest/QuestUIController.cs"
+"Assets/Features/Feature/#6.DOTween/DOTweenController.cs"
 "Assets/Features/Test/PerformanceTest.cs"
 "Assets/Features/Test/SingletonExample.cs"
 "Assets/Features/Test/SingletonTest.cs"

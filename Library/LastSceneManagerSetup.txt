@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Features/Test/TestScene.unity
+- path: Assets/Features/Feature/#6.DOTween/TestScene.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
